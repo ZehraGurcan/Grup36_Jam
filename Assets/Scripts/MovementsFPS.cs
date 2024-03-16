@@ -106,11 +106,11 @@ public class MovementsFPS : MonoBehaviour
 
     public void damageReceivedCrab()
     {
-        playerHealth -= 10;
+        playerHealth -= 20;
     }
     public void damageReceivedTHC()
     {
-        playerHealth -= 10;
+        playerHealth -= 15;
     }
     public void damageReceivedOrk()
     {

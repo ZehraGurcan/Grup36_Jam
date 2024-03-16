@@ -4,34 +4,69 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemyTHC : MonoBehaviour
 {
-    public float thcHP = 100;
-    public Animator thcAnim;
-    bool thcIsDead;
+    public float THCHP = 100;
+    public Animator THCAnim;
+    bool THCIsDead;
 
-    
+    GameObject target;
+    public float chasingDistance;
+    public float attackDistance;
+    NavMeshAgent THCNavMesh;
+    float distance;
 
     void Start()
     {
-        thcHP = 100;
+        THCHP = 100;
+        target = GameObject.Find("Oyuncu");
+        THCNavMesh = this.GetComponent<NavMeshAgent>();
     }
 
 
     void Update()
     {
-        if (thcHP <= 0)
+
+        this.transform.LookAt(target.transform.position);
+        if (THCHP <= 0)
         {
-            thcIsDead = true;
+            THCIsDead = true;
         }
 
-        if (thcIsDead == true)
+        if (THCIsDead == true)
         {
-            thcAnim.SetBool("isDead", true);
+            THCAnim.SetBool("isDead", true);
             StartCoroutine(Destroy());
         }
         else
         {
-            //hareket kodu
+            distance = Vector3.Distance(this.transform.position, target.transform.position);
+
+            if (distance < chasingDistance)
+            {
+                THCNavMesh.isStopped = false;
+                THCNavMesh.SetDestination(target.transform.position);
+                THCAnim.SetBool("isWalking", true);
+            }
+            else
+            {
+                THCNavMesh.isStopped = true;
+                THCAnim.SetBool("isWalking", false);
+            }
+
+            if (distance < attackDistance)
+            {
+                THCNavMesh.isStopped = true;
+                THCAnim.SetBool("isAttacking", true);
+            }
+            else
+            {
+                THCAnim.SetBool("isAttacking", false);
+            }
         }
+    }
+
+    void giveDamage()
+    {
+        target.GetComponent<MovementsFPS>().damageReceivedTHC();
     }
 
     IEnumerator Destroy()
@@ -42,15 +77,15 @@ public class EnemyTHC : MonoBehaviour
 
     void damageReceivedAKM()
     {
-        thcHP -= 10;
+        THCHP -= 10;
     }
     void damageReceivedMP7()
     {
-        thcHP -= 10;
+        THCHP -= 10;
     }
     void damageReceivedMCX()
     {
-        thcHP -= 10;
+        THCHP -= 10;
     }
 }
 

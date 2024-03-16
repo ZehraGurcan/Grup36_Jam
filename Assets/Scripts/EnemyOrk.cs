@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyOrk : MonoBehaviour
 {
@@ -8,14 +10,24 @@ public class EnemyOrk : MonoBehaviour
     public Animator orkAnim;
     bool orkIsDead;
 
+    GameObject target;
+    public float chasingDistance;
+    public float attackDistance;
+    NavMeshAgent orkNavMesh;
+    float distance;
+
     void Start()
     {
         orkHP = 100;
+        target = GameObject.Find("Oyuncu");
+        orkNavMesh = this.GetComponent<NavMeshAgent>();
     }
 
 
     void Update()
     {
+
+        this.transform.LookAt(target.transform.position);
         if (orkHP <= 0)
         {
             orkIsDead = true;
@@ -28,8 +40,35 @@ public class EnemyOrk : MonoBehaviour
         }
         else
         {
-            //hareket kodu
+            distance = Vector3.Distance(this.transform.position, target.transform.position);
+
+            if (distance < chasingDistance)
+            {
+                orkNavMesh.isStopped = false;
+                orkNavMesh.SetDestination(target.transform.position);
+                orkAnim.SetBool("isWalking", true);
+            }
+            else
+            {
+                orkNavMesh.isStopped = true;
+                orkAnim.SetBool("isWalking", false);
+            }
+
+            if (distance < attackDistance)
+            {
+                orkNavMesh.isStopped = true;
+                orkAnim.SetBool("isAttacking", true);
+            }
+            else
+            {
+                orkAnim.SetBool("isAttacking", false);
+            }
         }
+    }
+
+    void giveDamage()
+    {
+        target.GetComponent<MovementsFPS>().damageReceivedOrk();
     }
 
     IEnumerator Destroy()
@@ -50,4 +89,6 @@ public class EnemyOrk : MonoBehaviour
     {
         orkHP -= 10;
     }
+
+    
 }
