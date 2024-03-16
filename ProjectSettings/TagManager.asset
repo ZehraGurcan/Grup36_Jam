@@ -11,6 +11,7 @@ TagManager:
   - Dummie
   - Ground
   - Enemy
+  - player
   layers:
   - Default
   - TransparentFX

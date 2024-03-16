@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class MovementsFPS : MonoBehaviour
 {
@@ -102,6 +103,14 @@ public class MovementsFPS : MonoBehaviour
 
         _velocity.y += _gravity * Time.deltaTime;
         _controller.Move(motion: _velocity * Time.deltaTime);
+    }
+
+
+    public void Teleport(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        Physics.SyncTransforms();
+        
     }
 
     public void damageReceivedCrab()
