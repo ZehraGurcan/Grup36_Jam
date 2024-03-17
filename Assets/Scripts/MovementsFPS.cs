@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -24,7 +25,8 @@ public class MovementsFPS : MonoBehaviour
     public float _maxlimit;
     public float playerHealth;
     public bool isAlive = true;
-    
+    public Animator playerAnim;
+
     void Start()
     {
         
@@ -80,17 +82,29 @@ public class MovementsFPS : MonoBehaviour
         _cam.transform.localEulerAngles = new Vector3(x: -_limit, y: 0, z: 0);
         transform.Rotate(eulers: transform.up * (look_x * _sensitivity * Time.deltaTime));
 
+        //animasyonlar
+        if(x != 0 || y != 0){
+
+            playerAnim.SetBool("isWalking", true);
+
+        }
+        else
+        {
+            playerAnim.SetBool("isWalking", false);
+        }
+
         Vector3 direction = transform.right * x + transform.forward * y;
         _controller.Move(motion: direction * (_speed * Time.deltaTime));
 
         //Koþma
         if (Input.GetKey(KeyCode.LeftShift))
         {
-
+            playerAnim.SetBool("isRunning", true);
             _speed = _runspeed;
         }
         else
         {
+            playerAnim.SetBool("isRunning", false);
             _speed = _walkspeed;
         }
 
@@ -103,6 +117,9 @@ public class MovementsFPS : MonoBehaviour
 
         _velocity.y += _gravity * Time.deltaTime;
         _controller.Move(motion: _velocity * Time.deltaTime);
+
+        
+
     }
 
 
