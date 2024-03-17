@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Fire : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class Fire : MonoBehaviour
     public LayerMask orkMask;
     public Animator playerAnim;
 
-    public int bullet; 
+    public int bullet;
+    public TextMeshProUGUI bulletText;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,16 +27,19 @@ public class Fire : MonoBehaviour
     {
         bullet = Mathf.Clamp(bullet, 0, 10);
 
+
         if(bullet != 10 && Input.GetKeyDown(KeyCode.R))
         {
             playerAnim.SetTrigger("reload");
             bullet = 10;
+
         }
 
         if (Input.GetMouseButtonDown(0) && bullet != 0)
         {
             shoot();
         }
+        bulletText.text = "Ammo: " + bullet.ToString();
     }
 
     void shoot()

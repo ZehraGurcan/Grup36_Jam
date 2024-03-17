@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class MovementsFPS : MonoBehaviour
     public float playerHealth;
     public bool isAlive = true;
     public Animator playerAnim;
+
+    public TextMeshProUGUI healthText;
 
     void Start()
     {
@@ -58,7 +61,9 @@ public class MovementsFPS : MonoBehaviour
             Move();
         }
 
-        
+        healthText.text = "Health: " + playerHealth.ToString();
+
+
 
 
     }
