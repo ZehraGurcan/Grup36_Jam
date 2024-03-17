@@ -35,6 +35,7 @@ public class EnemyCrab : MonoBehaviour
         if(crabIsDead == true)
         {
             crabAnim.SetBool("isDead",true);
+            crabNavMesh.isStopped = true;
             StartCoroutine(Destroy());
         }
         else
@@ -76,7 +77,7 @@ public class EnemyCrab : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void damageReceivedAKM()
+    public void damageReceivedAKM()
     {
         crabHP -= 10;
     }

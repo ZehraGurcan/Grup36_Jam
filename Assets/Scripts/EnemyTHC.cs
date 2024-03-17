@@ -34,6 +34,7 @@ public class EnemyTHC : MonoBehaviour
         if (THCIsDead == true)
         {
             THCAnim.SetBool("isDead", true);
+            THCNavMesh.isStopped = true;
             StartCoroutine(Destroy());
         }
         else
@@ -75,7 +76,7 @@ public class EnemyTHC : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void damageReceivedAKM()
+    public void damageReceivedAKM()
     {
         THCHP -= 10;
     }

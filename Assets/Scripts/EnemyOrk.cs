@@ -36,6 +36,7 @@ public class EnemyOrk : MonoBehaviour
         if (orkIsDead == true)
         {
             orkAnim.SetBool("isDead", true);
+            orkNavMesh.isStopped = true;
             StartCoroutine(Destroy());
         }
         else
@@ -77,7 +78,7 @@ public class EnemyOrk : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void damageReceivedAKM()
+    public void damageReceivedAKM()
     {
         orkHP -= 10;
     }
